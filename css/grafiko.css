@@ -1,0 +1,9 @@
+#grafikoa{
+    width: 100px; 
+    height: 100px;
+    max-width: 60%;
+    /* height: auto; */
+    margin: auto;
+    display: block;
+    padding-bottom: 20px;
+}
