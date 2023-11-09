@@ -75,9 +75,9 @@
             </table>
 
             <div class="tab-control">
-                <img src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'ekipamenduaTable')" />
+                <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'ekipamenduaTable')" />
                 <span id="page-number">1</span> / <span id="total-pages">-</span>
-                <img src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'ekipamenduaTable')" />
+                <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'ekipamenduaTable')" />
             </div>
         </div>
 
