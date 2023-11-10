@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="eu">
 
 <head>
     <meta charset="UTF-8">
@@ -49,11 +49,12 @@
                         <button type="button" id="editatuButton" disabled><i class="fa-solid fa-pencil"></i></button>
                         <button type="button" id="ezabatuButton" disabled><i class="fa-solid fa-trash"></i></button>
                         <select name="filtro" id="filtro">
-                            <option value="nan">Etiketa</option>
-                            <option value="izena">Ekipamendu izena</option>
-                            <option value="abizena">Gela izena</option>
-                            <option value="erabiltzailea">Hasiera Data</option>
-                            <option value="rola">Amaiera Data</option>
+                            <option value="etiketa">Etiketa</option>
+                            <option value="ekipamenduIzena">Ekipamendu izena</option>
+                            <option value="idGela">ID Gela</option>
+                            <option value="gelaIzena">Gela izena</option>
+                            <option value="hasieraData">Hasiera Data</option>
+                            <option value="amaieraData">Amaiera Data</option>
                         </select>
                         <input type="text" id="bilaketa" placeholder="Bilatu...">
                         <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
@@ -79,17 +80,17 @@
                 <div class="popup">
                     <h2>Gehitu</h2>
                     <form id="gehituForm">
-                        <label for="gehituEtiketa">Etiketa:</label>
-                        <input type="text" id="gehituEtiketa" name="nan" required>
+                        <label for="gehituEkipamenduIzena">Ekipamendua:</label>
+                        <select name="gehituEkipamenduIzena" id="gehituEkipamenduIzena"></select>
                         <br><br>
-                        <label for="gehituIdGela">Id Gela:</label>
-                        <input type="text" id="gehituIdGela" name="idGela" required>
+                        <label for="gehituGela">Gela:</label>
+                        <select name="gehituGela" id="gehituGela"></select>
                         <br><br>
                         <label for="gehituHasieraData">Hasiera data:</label>
                         <input type="date" id="gehituHasieraData" name="hasieraData" required>
                         <br><br>
                         <label for="gehituAmaieraData">Amaiera data:</label>
-                        <input type="date" id="gehituAmaieraData" name="amaieraData" required>
+                        <input type="date" id="gehituAmaieraData" name="amaieraData">
                         <br><br>
                         <button type="submit" id="gehituSubmit">Onartu</button>
                         <button type="button" id="itxiGehituPopup">Itxi</button>
@@ -101,17 +102,14 @@
                 <div class="popup">
                     <h2>Editatu</h2>
                     <form id="editatuForm">
-                        <label for="editatuNAN">Etiketa:</label>
-                        <input type="text" id="editatuNAN" name="nan" required>
+                        <label for="editatuEtiketa">Etiketa:</label>
+                        <input type="text" id="editatuEtiketa" name="editatuEtiketa" disabled>
                         <br><br>
-                        <label for="editatuIzena">Id Gela:</label>
-                        <input type="text" id="editatuIzena" name="izena" required>
+                        <label for="editatuHasieraData">Hasiera data:</label>
+                        <input type="date" id="editatuHasieraData" name="editatuHasieraData" disabled>
                         <br><br>
-                        <label for="editatuAbizena">Hasiera data:</label>
-                        <input type="text" id="editatuAbizena" name="abizena" required>
-                        <br><br>
-                        <label for="editatuErabiltzailea">Amaiera data:</label>
-                        <input type="text" id="editatuErabiltzailea" name="erabiltzailea" required>
+                        <label for="editatuAmaieraData">Amaiera data:</label>
+                        <input type="date" id="editatuAmaieraData" name="editatuAmaieraData" required>
                         <br><br>
                         <button type="submit" id="editatuSubmit">Onartu</button>
                         <button type="button" id="itxiEditatuPopup">Itxi</button>
@@ -120,50 +118,73 @@
             </div>
 
             <div class="tab-control">
-                <img src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'kokalekuaTable')" />
+                <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginarKokalekua(-1)" />
                 <span id="page-number">1</span> / <span id="total-pages">-</span>
-                <img src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'kokalekuaTable')" />
+                <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginarKokalekua(1)" />
             </div>
         </div>
 
-        <h1>ORDENAGAILUEN EGOERA</h1>
+        <h1>PORTATILEN EGOERA</h1>
 
         <canvas id="grafikoa"></canvas>
 
         <script>
-            // Obtén el contexto del canvas
-            var ctx = document.getElementById('grafikoa').getContext('2d');
-        
-            // Datos del gráfico
-            var datos = {
-            labels: ['Libre', 'Hartuta'],
-            datasets: [{
-                label: 'Ordenagailuak',
-                data: [12, 19], // Datos para el gráfico de rosquilla
-                backgroundColor: [
-                    'rgba(80, 135, 236, 0.7)', // Color de fondo para el primer dato
-                    'rgba(255, 99, 132, 0.7)', // Color de fondo para el segundo dato
-                    
-                ],
-                borderColor: [
-                    'rgba(80, 135, 236, 1)', // Color del borde para el primer dato
-                    'rgba(255, 99, 132, 1)', // Color del borde para el segundo dato
-                ],
-                borderWidth: 1 // Ancho del borde del gráfico de rosquilla
-            }]
-        };
-        
-            // Configuración del gráfico
-            var config = {
-            type: 'doughnut', // Tipo de gráfico (gráfico de rosquilla)
-            data: datos,
-            options: {
-                responsive: true,
-            }
+            // Grafikoan erabiliko diren datuak lortu
+            fetch('http://localhost/erronka1/controller/kokalekuacontroller.php?portatil=true', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Puedes asignarlos a variables si lo necesitas
+                var total = data.TOTAL;
+                var libre = data.LIBRE;
+                
+                // Obtén el contexto del canvas
+                var ctx = document.getElementById('grafikoa').getContext('2d');
+            
+                // Datos del gráfico
+                var datos = {
+                labels: ['Libre', 'Hartuta'],
+                datasets: [{
+                    label: 'Ordenagailuak',
+                    data: [libre, (total-libre)], // Datos para el gráfico de rosquilla
+                    backgroundColor: [
+                        'rgba(80, 135, 236, 0.7)', // Color de fondo para el primer dato
+                        'rgba(255, 99, 132, 0.7)', // Color de fondo para el segundo dato
+                        
+                    ],
+                    borderColor: [
+                        'rgba(80, 135, 236, 1)', // Color del borde para el primer dato
+                        'rgba(255, 99, 132, 1)', // Color del borde para el segundo dato
+                    ],  
+                    borderWidth: 1 // Ancho del borde del gráfico de rosquilla
+                }]
             };
-        
-            // Crea el gráfico
-            var miGrafico = new Chart(ctx, config);
+            
+                // Configuración del gráfico
+                var config = {
+                type: 'doughnut', // Tipo de gráfico (gráfico de rosquilla)
+                data: datos,
+                options: {
+                    responsive: true,
+                }
+                };
+            
+                // Crea el gráfico
+                var miGrafico = new Chart(ctx, config);
+            })
+            .catch(err => {
+                console.error("ERROR: " + err.message);
+            });
+
         </script>
         
         <div class="footer">
@@ -172,7 +193,6 @@
     </div>
     
     <!-- SCRIPTS -->
-    <script src="../js/viewTables.js"></script>
     <script src="../js/kokalekua.js"></script>
 
 </body>
