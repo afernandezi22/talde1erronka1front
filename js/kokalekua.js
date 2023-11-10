@@ -1,5 +1,15 @@
+//BOTOIAK
+const ezabatuButton = document.getElementById("ezabatuButton");
+const gehituButton = document.getElementById("gehituButton");
+const editatuButton = document.getElementById("editatuButton");
+const bilaketaButton = document.getElementById("bilaketaButton");
+const resetButton = document.getElementById("resetButton");
+const bilaketaTestu = document.getElementById("bilaketa");
+const filtroSelect = document.getElementById("filtro");
+
 document.addEventListener("DOMContentLoaded", function() {
     const erabiltzaileaInput = document.getElementById("erabiltzailea");
+    const checkboxContainer = document.getElementById("kokalekuaTable");
 
     checkboxContainer.addEventListener("change", function (event) {
         if (event.target.classList.contains("checkbox-item")) {
@@ -21,6 +31,42 @@ document.addEventListener("DOMContentLoaded", function() {
 const gehituContainer = document.getElementById("gehituContainer");
 const itxiGehituPopup = document.getElementById("itxiGehituPopup");
 const gehituForm = document.getElementById("gehituForm");
+const gehituEkipamenduIzenaSelect = document.getElementById('gehituEkipamenduIzena');
+const gehituGelaSelect = document.getElementById('gehituGela');
+
+function ekipamenduGelakKargatu() {
+    // Vacía los elementos del primer desplegable
+    gehituEkipamenduIzenaSelect.innerHTML = '';
+
+    fetch('http://localhost/erronka1/controller/kokalekuacontroller.php?free=true')
+        .then(response => response.json())
+        .then(data => {
+            // Itera sobre el JSON y agrega opciones al desplegable
+            data.forEach(item => {
+                var option = document.createElement('option');
+                option.value = item.etiketa;
+                option.text = item.izena;
+                gehituEkipamenduIzenaSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // Vacía los elementos del segundo desplegable
+    gehituGelaSelect.innerHTML = '';
+
+    fetch('http://localhost/erronka1/controller/gelacontroller.php')
+        .then(response => response.json())
+        .then(data => {
+            // Itera sobre el JSON y agrega opciones al desplegable
+            data.forEach(item => {
+                var option = document.createElement('option');
+                option.value = item.id;
+                option.text = item.izena;
+                gehituGelaSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
 
 gehituButton.addEventListener("click", function () {
     gehituContainer.style.display = "block";
@@ -37,13 +83,21 @@ gehituForm.addEventListener("submit", function (e) {
 });
 
 function insertData(){
-    var izenaInputValue = document.getElementById("gehituIzena").value;
-    var taldeaInputValue = document.getElementById("gehituTaldea").value;
-
+    var etiketaInputValue = gehituEkipamenduIzenaSelect.value;
+    var gelaInputValue = gehituGelaSelect.value;
+    var hasieraDataValue = document.getElementById("gehituHasieraData").value;
+    var amaieraDataValue = document.getElementById("gehituAmaieraData").value;
+    if(amaieraDataValue.trim() == ''){
+        console.log("sartu da");
+        amaieraDataValue = "null";
+    }
     const data = {
-        izena: izenaInputValue,
-        taldea: taldeaInputValue
+        etiketa: etiketaInputValue,
+        idGela: gelaInputValue,
+        hasieraData: hasieraDataValue,
+        amaieraData: amaieraDataValue
     };
+
     fetch('http://localhost/erronka1/controller/kokalekuacontroller.php', {
         method: 'POST',
         headers: {
@@ -65,11 +119,15 @@ function insertData(){
 const editatuContainer = document.getElementById("editatuContainer");
 const itxiEditatuPopup = document.getElementById("itxiEditatuPopup");
 const editatuForm = document.getElementById("editatuForm");
+const editatuEtiketaInput = document.getElementById("editatuEtiketa");
+const editatuHasieraDataInput = document.getElementById("editatuHasieraData");
+const editatuAmaieraDataInput = document.getElementById("editatuAmaieraData");
 
 editatuButton.addEventListener("click", function () {
     const checkbox = document.querySelector('.checkbox-item:checked');
-    const editatuIdInput = document.getElementById("editatuId");
-    editatuIdInput.value = checkbox.id;
+    const editatuIdValue = checkbox.id.split("!");
+    editatuEtiketaInput.value = editatuIdValue[0];
+    editatuHasieraDataInput.value = editatuIdValue[1];
 
     editatuContainer.style.display = "block";
 });
@@ -85,18 +143,12 @@ editatuForm.addEventListener("submit", function (e) {
 });
 
 function editData(){
-    const checkbox = document.querySelector('.checkbox-item:checked');
-    const editatuIdInput = document.getElementById("editatuId");
-    const izenaInputValue = document.getElementById("editatuIzena").value;
-    const taldeaInputValue = document.getElementById("editatuTaldea").value;
-
     const data = {
-        id: checkbox.id,
-        izena: izenaInputValue,
-        taldea: taldeaInputValue
+        etiketa: editatuEtiketaInput.value,
+        hasieraData: editatuHasieraDataInput.value,
+        amaieraData: editatuAmaieraDataInput.value
     }
-
-    
+        
     fetch('http://localhost/erronka1/controller/kokalekuacontroller.php', {
         method: 'PUT',
         headers: {
@@ -199,6 +251,7 @@ function getData() {
         dataKokalekua = data;
         totalPages = Math.ceil(dataKokalekua.length / tableLines);
         paginarKokalekua(0); // Para asegurar que se inicie en la página 1
+        ekipamenduGelakKargatu();
     })
     .catch(err => {
         console.error("ERROR: " + err.message);
@@ -212,9 +265,10 @@ function viewTableKokalekua(dataKokalekua, actualPag) {
     var end = start + tableLines;
     
     for (var i = start; i < Math.min(end, dataKokalekua.length); i++){
-        tableHtml += "<tr><td><input type='checkbox' class='checkbox-item' id=" + dataKokalekua[i]["etiketa"] + "></td>";
+        tableHtml += "<tr><td><input type='checkbox' class='checkbox-item' id=" + dataKokalekua[i]["etiketa"] + "!" + dataKokalekua[i]["hasieraData"] + "></td>";
         tableHtml += "<td>" + dataKokalekua[i]["etiketa"] + "</td>";
         tableHtml += "<td>" + dataKokalekua[i]["ekipamenduIzena"] + "</td>";
+        tableHtml += "<td>" + dataKokalekua[i]["idGela"] + "</td>";
         tableHtml += "<td>" + dataKokalekua[i]["gelaIzena"] + "</td>";
         tableHtml += "<td>" + dataKokalekua[i]["hasieraData"] + "</td>";
         tableHtml += "<td>" + dataKokalekua[i]["amaieraData"] + "</td></tr>";
@@ -266,6 +320,21 @@ function filterData(){
         console.error("ERROR: " + err.message);
     })
 }
+
+filtroSelect.addEventListener('change', function() {
+    // Obtén el valor seleccionado
+    var selectedOption = filtroSelect.value;
+
+    // Verifica si la opción seleccionada es "hasieraData" o "amaieraData"
+    if (selectedOption === 'hasieraData' || selectedOption === 'amaieraData') {
+        // Cambia el tipo de input a "date"
+        bilaketaTestu.type = 'date';
+    } else if(selectedOption === 'idGela') {
+        bilaketaTestu.type = 'number';
+    } else{
+        bilaketaTestu.type = 'text';
+    }
+});
 
 resetButton.addEventListener("click", function(){
     getData();

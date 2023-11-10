@@ -9,7 +9,6 @@
     <link rel="icon" href="../img/favicon2.ico" type="image/x-icon">
     <link rel="shortcut icon" href="../img/favicon2.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"> -->
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
@@ -42,41 +41,74 @@
         <div class="content">
             <h1>INBENTARIOA</h1>
 
-            <!-- <div class="botoiak">
-                <iframe src="botoiak.html" width="100%" height="120px" frameborder="0"></iframe>
-            </div> -->
-
             <div class="botoiak">
-                <form action="">
-                    <button type="submit"><i class="fa-solid fa-circle-plus"></i></button>
-                    <button type="submit"><i class="fa-solid fa-pencil"></i></button>
-                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
-                    <select name="bilaketa" id="bilaketa">
-                        <option value="etiketa">Etiketa</option>
-                        <option value="idEkipamendu">Ekipameduaren ID</option>
-                        <option value="erosketaData">Erosketa Data</option>
-                    </select>
-                    <input type="text" placeholder="Bilatu...">
-                    <button class="lupa" type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
+                    <form action="">
+                        <button type="button" id="gehituButton"><i class="fa-solid fa-circle-plus"></i></button>
+                        <button type="button" id="editatuButton" disabled><i class="fa-solid fa-pencil"></i></button>
+                        <button type="button" id="ezabatuButton" disabled><i class="fa-solid fa-trash"></i></button>
+                        <select name="filtro" id="filtro">
+                            <option value="etiketa">Etiketa</option>
+                            <option value="idEkipamendu">ID Ekipamendu</option>
+                            <option value="ekipamenduIzena">Ekipamendu izena</option>
+                            <option value="erosketaData">Erosketa Data</option>
+                        </select>
+                        <input type="text" id="bilaketa" placeholder="Bilatu...">
+                        <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
+                        <button id="resetButton"><i class="fa-solid fa-rotate-right"></i></button>
+                    </form>
+                </div>
 
             <table id="inbentarioaTable">
                 <tr>
                     <th></th>
                     <th>Etiketa</th>
                     <th>ID Ekipamendu</th>
+                    <th>Izena Ekipamendu</th>
                     <th>Erosketa Data</th>
                 </tr>
 
                 <tbody id="showDataInbentarioa"></tbody>
-
             </table>
 
+            <div class="popup-container" id="gehituContainer">
+                <div class="popup">
+                    <h2>Gehitu</h2>
+                    <form id="gehituForm">
+                        <label for="gehituEkipamenduIzena">Ekipamendua:</label>
+                        <select name="gehituEkipamenduIzena" id="gehituEkipamenduIzena"></select>
+                        <br><br>
+                        <label for="gehituZenbat">Kantitatea:</label>
+                        <input type="number" id="gehituZenbat" name="gehituZenbat" required>
+                        <br><br>
+                        <label for="gehituErosketaData">Erosketa data:</label>
+                        <input type="date" id="gehituErosketaData" name="gehituErosketaData" required>
+                        <br><br>
+                        <button type="submit" id="gehituSubmit">Onartu</button>
+                        <button type="button" id="itxiGehituPopup">Itxi</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="popup-container" id="editatuContainer">
+                <div class="popup">
+                    <h2>Editatu</h2>
+                    <form id="editatuForm">
+                        <label for="editatuEtiketa">Etiketa:</label>
+                        <input type="text" id="editatuEtiketa" name="editatuEtiketa" disabled>
+                        <br><br>
+                        <label for="editatuErosketaData">Erosketa data:</label>
+                        <input type="date" id="editatuErosketaData" name="editatuErosketaData" required>
+                        <br><br>
+                        <button type="submit" id="editatuSubmit">Onartu</button>
+                        <button type="button" id="itxiEditatuPopup">Itxi</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="tab-control">
-                <img src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'inbentarioaTable')" />
+                <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginarInbentarioa(-1)" />
                 <span id="page-number">1</span> / <span id="total-pages">-</span>
-                <img src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'inbentarioaTable')" />
+                <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginarInbentarioa(1)" />
             </div>
         </div>
 
@@ -86,7 +118,6 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="../js/viewTables.js"></script>
     <script src="../js/inbentarioa.js"></script>
 </body>
 
