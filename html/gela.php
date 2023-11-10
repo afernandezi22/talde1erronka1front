@@ -103,9 +103,9 @@
             </div>
 
             <div class="tab-control">
-                <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'gelaTable')" />
+                <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginarGela(-1, 'gelaTable')" />
                 <span id="page-number">1</span> / <span id="total-pages">-</span>
-                <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'gelaTable')" />
+                <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginarGela(1, 'gelaTable')" />
             </div>
         </div>
 
@@ -116,7 +116,7 @@
 
     <!-- SCRIPTS -->
     <script src="../js/gela.js"></script>
-    <script src="../js/viewTables.js"></script>
+    <!-- <script src="../js/viewTables.js"></script> -->
 </body>
 
 </html>

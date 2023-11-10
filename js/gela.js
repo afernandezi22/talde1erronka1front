@@ -277,5 +277,6 @@ function filterData(){
 }
 
 resetButton.addEventListener("click", function(){
-    getData();
+    //getData();
+    getDataFromURL("gelaTable");
 });
