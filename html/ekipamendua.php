@@ -42,35 +42,35 @@
         <div class="content">
             <h1>EKIPAMENDUA</h1>
             <div class="botoiak">
-                    <form action="">
-                        <button type="button" id="gehituButton"><i class="fa-solid fa-circle-plus"></i></button>
-                        <button type="button" id="editatuButton" disabled><i class="fa-solid fa-pencil"></i></button>
-                        <button type="button" id="ezabatuButton" disabled><i class="fa-solid fa-trash"></i></button>
-                        <select name="filtro" id="filtro">
-                            <option value="id">ID</option>
-                            <option value="izena">Ekipamenduaren izena</option>
-                            <option value="marka">Marka</option>
-                            <option value="modelo">Modeloa</option>
-                            <option value="stock">Stock</option>
-                            <option value="kategoria">Kategoria</option>
-                        </select>
-                        <input type="text" id="bilaketa" placeholder="Bilatu...">
-                        <select name="kategoria" id="kategoria" hidden></select>
-                        <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
-                        <button id="resetButton"><i class="fa-solid fa-rotate-right"></i></button>
-                    </form>
-                </div>
+                <form action="">
+                    <button type="button" id="gehituButton"><i class="fa-solid fa-circle-plus"></i></button>
+                    <button type="button" id="editatuButton" disabled><i class="fa-solid fa-pencil"></i></button>
+                    <button type="button" id="ezabatuButton" disabled><i class="fa-solid fa-trash"></i></button>
+                    <select name="filtro" id="filtro">
+                        <option value="id">ID</option>
+                        <option value="izena">Ekipamenduaren izena</option>
+                        <option value="marka">Marka</option>
+                        <option value="modelo">Modeloa</option>
+                        <option value="stock">Stock</option>
+                        <option value="kategoria">Kategoria</option>
+                    </select>
+                    <input type="text" id="bilaketa" placeholder="Bilatu...">
+                    <select name="kategoria" id="kategoria" hidden></select>
+                    <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
+                    <button id="resetButton"><i class="fa-solid fa-rotate-right"></i></button>
+                </form>
+            </div>
 
             <table id="ekipamenduaTable">
                 <tr>
                     <th></th>
-                    <th>ID</th>
-                    <th>Izena</th>
+                    <th class="sortable" data-column="id">ID<i class='bx bxs-sort-alt'></i></th>
+                    <th class="sortable" data-column="izena">Izena<i class='bx bxs-sort-alt'></i></th>
                     <th>Deskribapena</th>
-                    <th>Marka</th>
-                    <th>Modelo</th>
-                    <th>Stock</th>
-                    <th>Kategoria</th>
+                    <th class="sortable" data-column="marka">Marka<i class='bx bxs-sort-alt'></i></th>
+                    <th class="sortable" data-column="modelo">Modelo<i class='bx bxs-sort-alt'></i></th>
+                    <th class="sortable" data-column="stock">Stock<i class='bx bxs-sort-alt'></i></th>
+                    <th class="sortable" data-colunm="kategoria">Kategoria<i class='bx bxs-sort-alt'></i></th>
                 </tr>
 
                 <tbody id="showDataEkipamendua"></tbody>
@@ -136,6 +136,8 @@
             </div>
         </div>
 
+
+        <!-- SCRIPT -->
         <script src="../js/ekipamendua.js"></script>
 
         <!-- FOOTER -->
