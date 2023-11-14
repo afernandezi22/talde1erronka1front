@@ -1,30 +1,10 @@
-//DATUAK TAULAN BISTARATZEKO PAGINA KARGATZERAKOAN
-window.addEventListener("load", function(){
-    if (document.getElementById("kategoriaTable")!= undefined){
-        getDataFromURL("kategoriaTable");
-    }
-})
-
-//DATUAK TAULA FORMATUAN BISTARATZEKO
-function viewTable(dataAll, actualPag, tableId) {
-    var tableHtml = "";
-    var start = (actualPag - 1) * tableLines;
-    var end = start + tableLines;
-    
-    for (let i = start; i < Math.min(end, tableData[tableId].data.length); i++) {
-        if (tableId == "kategoriaTable") {
-            tableHtml += "<tr><td><input type='checkbox' class='checkbox-item' id=" + tableData[tableId].data[i]["id"] + "></td>";
-            tableHtml += "<td>" + tableData[tableId].data[i]["id"] + "</td>";
-            tableHtml += "<td>" + tableData[tableId].data[i]["izena"] + "</td></tr>";
-        }
-    }
-    document.getElementById("showDataKategoria").innerHTML = tableHtml;
-}
-
-
-
-
-
+//ERABILTZAILEAREN DATUAK
+const username = document.getElementById("username");
+const rol = document.getElementById("rol");
+const name = document.getElementById("name");
+const avatar = document.getElementById("avatar");
+const logo = document.getElementById("logo");
+const erabiltzaileIzena = document.getElementById("erabiltzaileIzena");
 
 //BOTOIAK
 const ezabatuButton = document.getElementById("ezabatuButton");
@@ -37,8 +17,8 @@ const bilaketaTestu = document.getElementById("bilaketa");
 // BOTOIAK AKTIBATU ETA DESAKTIBATZEKO
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxContainer = document.getElementById("kategoriaTable");
-    const editatuButton = document.getElementById("editatuButton");
-    const ezabatuButton = document.getElementById("ezabatuButton");
+    logo.src = avatar.value;
+    erabiltzaileIzena.innerHTML = name.value + " (" + username.value + ")";
 
     checkboxContainer.addEventListener("change", function (event) {
         if (event.target.classList.contains("checkbox-item")) {
@@ -77,8 +57,9 @@ gehituForm.addEventListener("submit", function (e) {
 
 function insertData(){
     var izenaInputValue = document.getElementById("gehituIzena").value;
+
     const data = {
-        izena: izenaInputValue
+        izena: izenaInputValue,
     };
     fetch('http://localhost/erronka1/controller/kategoriacontroller.php', {
         method: 'POST',
@@ -122,11 +103,11 @@ editatuForm.addEventListener("submit", function (e) {
 
 function editData(){
     const checkbox = document.querySelector('.checkbox-item:checked');
-    const editatuIdInput = document.getElementById("editatuId");
     const izenaInputValue = document.getElementById("editatuIzena").value;
+
     const data = {
         id: checkbox.id,
-        izena: izenaInputValue
+        izena: izenaInputValue,
     }
 
     
@@ -196,7 +177,7 @@ ezabatuButton.addEventListener("click", function (){
 });
 
 //PAGINATZEKO LOGIKA
-/*var dataKategoria = [];
+var dataKategoria = [];
 const tableLines = 10;
 var actualPag = 1;
 
@@ -247,14 +228,14 @@ function viewTableKategoria(dataKategoria, actualPag) {
     for (var i = start; i < Math.min(end, dataKategoria.length); i++){
         tableHtml += "<tr><td><input type='checkbox' class='checkbox-item' id=" + dataKategoria[i]["id"] + "></td>";
         tableHtml += "<td>" + dataKategoria[i]["id"] + "</td>";
-        tableHtml += "<td>" + dataKategoria[i]["izena"] + "</td></tr>";
+        tableHtml += "<td>" + dataKategoria[i]["izena"] + "</td><tr>";
     }
     document.getElementById("showDataKategoria").innerHTML = tableHtml;
 }
 
 window.addEventListener("load", function(){
     getData();
-})*/
+})
 
 // FILTROA
 bilaketaButton.addEventListener("click", function(){
@@ -298,5 +279,5 @@ function filterData(){
 }
 
 resetButton.addEventListener("click", function(){
-    getData();
+    getDataFromURL("kategoriaTable");
 });

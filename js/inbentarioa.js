@@ -1,3 +1,11 @@
+//ERABILTZAILEAREN DATUAK
+const username = document.getElementById("username");
+const rol = document.getElementById("rol");
+const name = document.getElementById("name");
+const avatar = document.getElementById("avatar");
+const logo = document.getElementById("logo");
+const erabiltzaileIzena = document.getElementById("erabiltzaileIzena");
+
 //BOTOIAK
 const ezabatuButton = document.getElementById("ezabatuButton");
 const gehituButton = document.getElementById("gehituButton");
@@ -10,8 +18,8 @@ const filtroSelect = document.getElementById("filtro");
 // BOTOIAK AKTIBATU ETA DESAKTIBATZEKO
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxContainer = document.getElementById("inbentarioaTable");
-    const editatuButton = document.getElementById("editatuButton");
-    const ezabatuButton = document.getElementById("ezabatuButton");
+    logo.src = avatar.value;
+    erabiltzaileIzena.innerHTML = name.value + " (" + username.value + ")";
 
     checkboxContainer.addEventListener("change", function (event) {
         if (event.target.classList.contains("checkbox-item")) {

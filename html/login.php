@@ -15,7 +15,7 @@
         <div class="content">
             <h1 class="loginTitle">Login</h1>
 
-            <form id="loginForm">
+            <form id="loginForm" method="post">
                 <label><b>Erabiltzailea:</b></label>
                 <input id="erabil" type="text" name="erabil"><br><br>
                 <label><b>Pasahitza:</b></label>

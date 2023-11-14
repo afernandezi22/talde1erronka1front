@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    echo "<input type='hidden' id='username' value=" . $_SESSION["username"] . ">";
+    echo "<input type='hidden' id='rol' value=" . $_SESSION["rol"] . ">";
+    echo "<input type='hidden' id='name' value=" . $_SESSION["name"] . ">";
+    echo "<input type='hidden' id='avatar' value=" . $_SESSION["avatar"] . ">";
+ ?>
+ 
 <!DOCTYPE html>
 <html lang="eu">
 
@@ -9,7 +17,6 @@
     <link rel="icon" href="../img/favicon2.ico" type="image/x-icon">
     <link rel="shortcut icon" href="../img/favicon2.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"> -->
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
@@ -25,8 +32,8 @@
                 <i class="fas fa-bars"></i>
             </label>
             <div class="logo-container">
-                <img class="logo" src="../img/julian cabeza.jpg" />
-                <p>Julian (#erabiltzaile_izena)</p>
+                <img id="logo" class="logo" src="../img/julian cabeza.jpg" />
+                <p id="erabiltzaileIzena">Julian (#erabiltzaile_izena)</p>
             </div>
             <ul class="nav-links">
                 <li><a href="kokalekua.php">Kokalekua</a></li>

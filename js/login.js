@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 erabiltzaileaInput.style.border = null;
                 pasahitzaInput.style.border = null;
                 console.log("Ondo!");
-                window.location.replace("http://localhost/erronka1/ERRONKA/html/kokalekua.php");
+                window.location.replace("kokalekua.php");
                 erantzunaDiv.innerHTML = "";                 
             }
         })

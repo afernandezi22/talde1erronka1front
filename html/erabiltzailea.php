@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    echo "<input type='hidden' id='username' value=" . $_SESSION["username"] . ">";
+    echo "<input type='hidden' id='rol' value=" . $_SESSION["rol"] . ">";
+    echo "<input type='hidden' id='name' value=" . $_SESSION["name"] . ">";
+    echo "<input type='hidden' id='avatar' value=" . $_SESSION["avatar"] . ">";
+ ?>
+
 <!DOCTYPE html>
 <html lang="eu">
     <head>
@@ -20,8 +28,8 @@
                     <i class="fas fa-bars"></i>
                 </label>
                 <div class="logo-container">
-                    <img class="logo" src="../img/julian cabeza.jpg" />
-                    <p>Julian (#erabiltzaile_izena)</p>
+                    <img id="logo" class="logo" src="../img/julian cabeza.jpg" />
+                    <p id="erabiltzaileIzena">Julian (#erabiltzaile_izena)</p>
                 </div>
                 <ul class="nav-links">
                     <li><a href="kokalekua.php">Kokalekua</a></li>

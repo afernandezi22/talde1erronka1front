@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    echo "<input type='hidden' id='username' value=" . $_SESSION["username"] . ">";
+    echo "<input type='hidden' id='rol' value=" . $_SESSION["rol"] . ">";
+    echo "<input type='hidden' id='name' value=" . $_SESSION["name"] . ">";
+    echo "<input type='hidden' id='avatar' value=" . $_SESSION["avatar"] . ">";
+ ?>
+
 <!DOCTYPE html>
 <html lang="eu">
 
@@ -9,6 +17,7 @@
     <link rel="icon" href="../img/favicon2.ico" type="image/x-icon">
     <link rel="shortcut icon" href="../img/favicon2.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     <title>Kategoria</title>
 </head>
 
@@ -21,8 +30,8 @@
                 <i class="fas fa-bars"></i>
             </label>
             <div class="logo-container">
-                <img class="logo" src="../img/julian cabeza.jpg" />
-                <p>Julian (#erabiltzaile_izena)</p>
+                <img id="logo" class="logo" src="../img/julian cabeza.jpg" />
+                <p id="erabiltzaileIzena">Julian (#erabiltzaile_izena)</p>
             </div>
             <ul class="nav-links">
                 <li><a href="kokalekua.php">Kokalekua</a></li>
@@ -93,9 +102,9 @@
             </div>
 
             <div class="tab-control">
-                <img src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'kategoriaTable')" />
+                <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginarKategoria(-1)" />
                 <span id="page-number">1</span> / <span id="total-pages">-</span>
-                <img src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'kategoriaTable')" />
+                <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginarKategoria(1)" />
             </div>
         </div>        
         <div class="footer">
@@ -104,7 +113,6 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="../js/viewTables.js"></script>
     <script src="../js/kategoria.js"></script>
     
 </body>
