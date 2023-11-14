@@ -5,6 +5,8 @@ const editatuButton = document.getElementById("editatuButton");
 const bilaketaButton = document.getElementById("bilaketaButton");
 const resetButton = document.getElementById("resetButton");
 const bilaketaTestu = document.getElementById("bilaketa");
+const filtroSelect = document.getElementById("filtro");
+const rolaSelect = document.getElementById("rolaSelect");
 
 // BOTOIAK AKTIBATU ETA DESAKTIBATZEKO
 document.addEventListener("DOMContentLoaded", function () {
@@ -48,13 +50,24 @@ gehituForm.addEventListener("submit", function (e) {
 });
 
 function insertData(){
-    var izenaInputValue = document.getElementById("gehituIzena").value;
-    var taldeaInputValue = document.getElementById("gehituTaldea").value;
+    const gehituNanInput = document.getElementById("gehituNAN");
+    const gehituIzenaInput = document.getElementById("gehituIzena");
+    const gehituAbizenaInput = document.getElementById("gehituAbizena");
+    const gehituErabiltzaileaInput = document.getElementById("gehituErabiltzailea");
+    const gehituPasahitzaInput = document.getElementById("gehituPasahitza");
+    const gehituRolaInput = document.getElementById("gehituRola");
+    const gehituIrudiaInput = document.getElementById("gehituIrudia");
 
     const data = {
-        izena: izenaInputValue,
-        taldea: taldeaInputValue
+        nan: gehituNanInput.value,
+        izena: gehituIzenaInput.value,
+        abizena: gehituAbizenaInput.value,
+        erabiltzailea: gehituErabiltzaileaInput.value,
+        pasahitza: gehituPasahitzaInput.value,
+        rola: gehituRolaInput.value,
+        irudia: gehituIrudiaInput.value
     };
+
     fetch('http://localhost/erronka1/controller/erabiltzaileacontroller.php', {
         method: 'POST',
         headers: {
@@ -78,10 +91,7 @@ const itxiEditatuPopup = document.getElementById("itxiEditatuPopup");
 const editatuForm = document.getElementById("editatuForm");
 
 editatuButton.addEventListener("click", function () {
-    const checkbox = document.querySelector('.checkbox-item:checked');
-    const editatuIdInput = document.getElementById("editatuId");
-    editatuIdInput.value = checkbox.id;
-
+    editKargatuDatuak();
     editatuContainer.style.display = "block";
 });
 
@@ -95,16 +105,62 @@ editatuForm.addEventListener("submit", function (e) {
     editatuContainer.style.display = "none";
 });
 
+function editKargatuDatuak(){
+    var checkbox = document.querySelector('.checkbox-item:checked');
+    const editatuNanInput = document.getElementById("editatuNAN");
+    const editatuIzenaInput = document.getElementById("editatuIzena");
+    const editatuAbizenaInput = document.getElementById("editatuAbizena");
+    const editatuErabiltzaileaInput = document.getElementById("editatuErabiltzailea");
+    const editatuPasahitzaInput = document.getElementById("editatuPasahitza");
+    const editatuRolaInput = document.getElementById("editatuRola");
+    const editatuIrudiaInput = document.getElementById("editatuIrudia");
+
+    const url = `http://localhost/erronka1/controller/erabiltzaileacontroller.php?id=${checkbox.id}`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        if(data == null){
+            alert("Kontuz! Ez dago daturik kontsulta horrekin!");
+        } else {
+            editatuNanInput.value = data[0].nan;
+            editatuIzenaInput.value = data[0].izena;
+            editatuAbizenaInput.value = data[0].abizena;
+            editatuErabiltzaileaInput.value = data[0].erabiltzailea;
+            editatuPasahitzaInput.value = data[0].pasahitza;
+            editatuRolaInput.value = data[0].rola;
+            editatuIrudiaInput.value = data[0].irudia;
+        }
+    })  
+    .catch(err => {
+        console.error("ERROR: " + err.message);
+    })
+}
+
+
 function editData(){
-    const checkbox = document.querySelector('.checkbox-item:checked');
-    const editatuIdInput = document.getElementById("editatuId");
+    const nanInputValue = document.getElementById("editatuNAN").value;
     const izenaInputValue = document.getElementById("editatuIzena").value;
-    const taldeaInputValue = document.getElementById("editatuTaldea").value;
+    const abizenaInputValue = document.getElementById("editatuAbizena").value;
+    const erabiltzaileaInputValue = document.getElementById("editatuErabiltzailea").value;
+    const pasahitzaInputValue = document.getElementById("editatuPasahitza").value;
+    const rolaInputValue = document.getElementById("editatuRola").value;
+    const irudiaInputValue = document.getElementById("editatuIrudia").value;
 
     const data = {
-        id: checkbox.id,
+        nan: nanInputValue,
         izena: izenaInputValue,
-        taldea: taldeaInputValue
+        abizena: abizenaInputValue,
+        erabiltzailea: erabiltzaileaInputValue,
+        pasahitza: pasahitzaInputValue,
+        rola: rolaInputValue,
+        irudia: irudiaInputValue
     }
 
     
@@ -117,6 +173,7 @@ function editData(){
     })
     .then(() => {
         console.log("ONDO!");
+        console.log(data);
         getData();
     })
     .catch(error => {
@@ -142,7 +199,7 @@ function deleteData(){
     console.log(checkboxIDs);
 
     const data = {
-        id: checkboxIDs
+        nan: checkboxIDs
     }
     
     //Galdetu
@@ -223,13 +280,26 @@ function viewTableErabiltzailea(dataErabiltzailea, actualPag) {
     var end = start + tableLines;
     
     for (var i = start; i < Math.min(end, dataErabiltzailea.length); i++){
+        var irudia;
+        var rola;
+        if(dataErabiltzailea[i]["irudia"] == null){
+            irudia = "../img/avatar/default.jpg";
+        } else{
+            irudia = dataErabiltzailea[i]["irudia"];
+        }
+        if(dataErabiltzailea[i]["rola"] == 0){
+            rola = "Admin";
+        } else{
+            rola = "Erabiltzaile";
+        }
+
         tableHtml += "<tr><td><input type='checkbox' class='checkbox-item' id=" + dataErabiltzailea[i]["nan"] + "></td>";
         tableHtml += "<td>" + dataErabiltzailea[i]["nan"] + "</td>";
         tableHtml += "<td>" + dataErabiltzailea[i]["izena"] + "</td>";
         tableHtml += "<td>" + dataErabiltzailea[i]["abizena"] + "</td>";
         tableHtml += "<td>" + dataErabiltzailea[i]["erabiltzailea"] + "</td>";
-        tableHtml += "<td>" + dataErabiltzailea[i]["rola"] + "</td>";
-        tableHtml += "<td>" + dataErabiltzailea[i]["irudia"] + "</td></tr>";
+        tableHtml += "<td>" + rola + "</td>";
+        tableHtml += "<td><img src='" + irudia + "' class='argazkiak'></td></tr>";
     }
     document.getElementById("showDataErabiltzailea").innerHTML = tableHtml;
 }
@@ -251,8 +321,13 @@ bilaketaTestu.addEventListener("keypress", function(event) {
 });
 
 function filterData(){
-    const bilaketaInputValue = document.getElementById("bilaketa").value;
-    const filtroSelectValue = document.getElementById("filtro").value;
+    var bilaketaInputValue = document.getElementById("bilaketa").value;
+    var filtroSelectValue = document.getElementById("filtro").value;
+
+    if(rolaSelect.hidden == false){
+        filtroSelectValue = "rola";
+        bilaketaInputValue = document.getElementById("rolaSelect").value;
+    }
 
     const url = `http://localhost/erronka1/controller/erabiltzaileacontroller.php?datua=${bilaketaInputValue}&zutabea=${filtroSelectValue}`;
 
@@ -278,6 +353,19 @@ function filterData(){
         console.error("ERROR: " + err.message);
     })
 }
+
+filtroSelect.addEventListener('change', function() {
+    var selectedOption = filtroSelect.value;
+
+    if (selectedOption === 'rola') {
+        bilaketaTestu.hidden = true;
+        rolaSelect.hidden = false;
+    }else{
+        bilaketaTestu.hidden = false;
+        rolaSelect.hidden = true;
+    }
+});
+
 
 resetButton.addEventListener("click", function(){
     getData();

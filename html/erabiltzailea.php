@@ -49,6 +49,10 @@
                             <option value="rola">Rola</option>
                         </select>
                         <input type="text" id="bilaketa" placeholder="Bilatu...">
+                        <select name="rolaSelect" id="rolaSelect" hidden>
+                            <option value="0">Admin</option>
+                            <option value="1">Erabiltzaile</option>
+                        </select>
                         <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
                         <button id="resetButton"><i class="fa-solid fa-rotate-right"></i></button>
                     </form>
@@ -91,7 +95,7 @@
                             <input type="text" id="gehituRola" name="rola" required>
                             <br><br>
                             <label for="gehituIrudia">Irudia:</label>
-                            <input type="text" id="gehituIrudia" name="irudia" required>
+                            <input type="text" id="gehituIrudia" name="irudia">
                             <br><br>
                             <button type="submit" id="gehituSubmit">Onartu</button>
                             <button type="button" id="itxiGehituPopup">Itxi</button>
@@ -104,7 +108,7 @@
                         <h2>Editatu</h2>
                         <form id="editatuForm">
                             <label for="editatuNAN">NAN:</label>
-                            <input type="text" id="editatuNAN" name="nan" required>
+                            <input type="text" id="editatuNAN" name="nan" disabled>
                             <br><br>
                             <label for="editatuIzena">Izena:</label>
                             <input type="text" id="editatuIzena" name="izena" required>
@@ -122,7 +126,7 @@
                             <input type="text" id="editatuRola" name="rola" required>
                             <br><br>
                             <label for="editatuIrudia">Irudia:</label>
-                            <input type="text" id="editatuIrudia" name="irudia" required>
+                            <input type="text" id="editatuIrudia" name="irudia">
                             <br><br>
                             <button type="submit" id="editatuSubmit">Onartu</button>
                             <button type="button" id="itxiEditatuPopup">Itxi</button>
@@ -131,9 +135,9 @@
                 </div>
 
                 <div class="tab-control">
-                    <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginar(-1, 'erabiltzileaTable')" />
+                    <img class="geziak" src="../img/flecha-izquierda.png" id="previous" onclick="paginarErabiltzailea(-1)" />
                     <span id="page-number">1</span> / <span id="total-pages">-</span>
-                    <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginar(1, 'erabiltzaileaTable')" />
+                    <img class="geziak" src="../img/flecha-derecha.png" id="next" onclick="paginarErabiltzailea(1)" />
                 </div>
             </div>
             <div class="footer">
@@ -142,7 +146,6 @@
         </div>
 
         <!-- SCRIPTS -->
-        <script src="../js/viewTables.js"></script>
         <script src="../js/erabiltzailea.js"></script>
     </body>
 </html>

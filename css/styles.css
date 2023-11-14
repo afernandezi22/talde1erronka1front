@@ -437,3 +437,8 @@ input[type="password"] {
 .geziak{
     cursor: pointer;
 }
+
+.argazkiak {
+    width: 20%; /* Establecer el ancho como un porcentaje del contenedor */
+    height: auto; /* Mantener la proporción original de la imagen */
+}

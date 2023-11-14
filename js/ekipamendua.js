@@ -119,7 +119,7 @@ editatuButton.addEventListener("click", function () {
     const checkbox = document.querySelector('.checkbox-item:checked');
     const editatuIdInput = document.getElementById("editatuId");
     editatuIdInput.value = checkbox.id;
-
+    editKargatuDatuak();
     editatuContainer.style.display = "block";
 });
 
@@ -133,8 +133,43 @@ editatuForm.addEventListener("submit", function (e) {
     editatuContainer.style.display = "none";
 });
 
+function editKargatuDatuak(){
+    var checkbox = document.querySelector('.checkbox-item:checked');
+    const editatuIdInputValue = document.getElementById("editatuId").value;
+    const editatuIzenaInput = document.getElementById("editatuIzena");
+    const editatuDeskribapenaInput = document.getElementById("editatuDeskribapena");
+    const editatuMarkaInput = document.getElementById("editatuMarka");
+    const editatuModeloInput = document.getElementById("editatuModelo");
+    const editatuKategoriaInput = document.getElementById("editatuKategoria");
+
+    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?id=${editatuIdInputValue}`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        if(data == null){
+            alert("Kontuz! Ez dago daturik kontsulta horrekin!");
+        } else {
+            editatuIzenaInput.value = data[0].izena;
+            editatuDeskribapenaInput.value = data[0].deskribapena;
+            editatuMarkaInput.value = data[0].marka;
+            editatuModeloInput.value = data[0].modelo;
+            editatuKategoriaInput.value = data[0].idKategoria;
+            editatuKategoriaInput.text = data[0].kategoriaIzena;
+        }
+    })  
+    .catch(err => {
+        console.error("ERROR: " + err.message);
+    })
+}
+
 function editData(){
-    const checkbox = document.querySelector('.checkbox-item:checked');
     const editatuIdInputValue = document.getElementById("editatuId").value;
     const editatuIzenaInputValue = document.getElementById("editatuIzena").value;
     const editatuDeskribapenaInputValue = document.getElementById("editatuDeskribapena").value;
@@ -301,12 +336,14 @@ bilaketaTestu.addEventListener("keypress", function(event) {
 });
 
 function filterData(){
-    const bilaketaInputValue = document.getElementById("bilaketa").value;
-    const filtroSelectValue = document.getElementById("filtro").value;
-    // FALTA PONER AQUÍ LO DE KATEGORIA!!!!
+    var bilaketaInputValue = document.getElementById("bilaketa").value;
+    var filtroSelectValue = document.getElementById("filtro").value;
+    if(kategoriaSelect.hidden == false){
+        filtroSelectValue = "idKategoria";
+        bilaketaInputValue = document.getElementById("kategoria").value;
+    }
 
     const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?datua=${bilaketaInputValue}&zutabea=${filtroSelectValue}`;
-
     fetch(url, {
         method: 'GET',
         headers: {
@@ -331,19 +368,22 @@ function filterData(){
 }
 
 filtroSelect.addEventListener('change', function() {
-    // Obtén el valor seleccionado
     var selectedOption = filtroSelect.value;
 
-    // Verifica si la opción seleccionada es "hasieraData" o "amaieraData"
     if (selectedOption === 'kategoria') {
-        // Cambia el tipo de input a "date"
         bilaketaTestu.hidden = true;
         kategoriaSelect.hidden = false;
     } else if(selectedOption === 'id') {
         bilaketaTestu.hidden = false;
+        kategoriaSelect.hidden = true;
         bilaketaTestu.type = 'number';
-    } else{
+    } else if(selectedOption === 'stock') {
         bilaketaTestu.hidden = false;
+        kategoriaSelect.hidden = true;
+        bilaketaTestu.type = 'number';
+    }else{
+        bilaketaTestu.hidden = false;
+        kategoriaSelect.hidden = true;
         bilaketaTestu.type = 'text';
     }
 });
