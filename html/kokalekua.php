@@ -118,7 +118,7 @@
                                 <input type="date" id="editatuHasieraData" name="editatuHasieraData" disabled>
                                 <br><br>
                                 <label for="editatuAmaieraData">Amaiera data:</label>
-                                <input type="date" id="editatuAmaieraData" name="editatuAmaieraData" required>
+                                <input type="date" id="editatuAmaieraData" name="editatuAmaieraData">
                                 <br><br>
                                 <button type="submit" id="editatuSubmit">Onartu</button>
                                 <button type="button" id="itxiEditatuPopup">Itxi</button>

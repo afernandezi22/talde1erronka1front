@@ -157,10 +157,15 @@ editatuForm.addEventListener("submit", function (e) {
 });
 
 function editData(){
+    var amaieraDataValue = editatuAmaieraDataInput.value;
+    if(amaieraDataValue.trim() == ''){
+        amaieraDataValue = "null";
+    }
+
     const data = {
         etiketa: editatuEtiketaInput.value,
         hasieraData: editatuHasieraDataInput.value,
-        amaieraData: editatuAmaieraDataInput.value
+        amaieraData: amaieraDataValue
     }
         
     fetch('http://localhost/erronka1/controller/kokalekuacontroller.php', {
