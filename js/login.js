@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 erabiltzaileaInput.style.border = null;
                 pasahitzaInput.style.border = null;
                 console.log("Ondo!");
+                loginOk(data);
                 window.location.replace("kokalekua.php");
                 erantzunaDiv.innerHTML = "";                 
             }
@@ -48,6 +49,34 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => {
             console.error('Error:', error);
         });
+    }
+
+    function loginOk(data){
+        //JSON-a egin
+        data = {
+            username: data.username,
+            name: data.name,
+            rol: data.rol,
+            avatar: data.avatar
+        };
+
+        //Eskaera
+        // Realizar una solicitud POST al servidor
+        fetch('http://localhost/talde1erronka1front/html/login.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
     }
 
     bidaliButton.addEventListener("click", bidali);
