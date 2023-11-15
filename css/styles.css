@@ -439,6 +439,18 @@ input[type="password"] {
 }
 
 .argazkiak {
-    width: 20%; /* Establecer el ancho como un porcentaje del contenedor */
-    height: auto; /* Mantener la proporción original de la imagen */
+    width: 20%;
+    height: auto;
+}
+
+.popup input[type="text"],
+.popup input[type="password"] {
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.popup input[type="text"]:focus,
+.popup input[type="password"]:focus {
+    outline: none;
+    border: 2px solid #000;
 }
