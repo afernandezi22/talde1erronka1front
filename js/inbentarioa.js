@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     erabiltzaileIzena.innerHTML = name.value + " (" + username.value + ")";
     //ERABILTZAILEA aukera ez da agertuko ADMIN rola ez baduzu
     const erabiltzaileaLink = document.getElementById("erabiltzaileaLink");
-    if(rol != 0){
+    if(rol.value != 0){
         erabiltzaileaLink.style.display = 'none';
     }
 
