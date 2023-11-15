@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkboxContainer = document.getElementById("ekipamenduaTable");
     logo.src = avatar.value;
     erabiltzaileIzena.innerHTML = name.value + " (" + username.value + ")";
+    //ERABILTZAILEA aukera ez da agertuko ADMIN rola ez baduzu
+    const erabiltzaileaLink = document.getElementById("erabiltzaileaLink");
+    if(rol != 0){
+        erabiltzaileaLink.style.display = 'none';
+    }
 
     checkboxContainer.addEventListener("change", function (event) {
         if (event.target.classList.contains("checkbox-item")) {
