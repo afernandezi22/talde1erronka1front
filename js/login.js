@@ -41,42 +41,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 erabiltzaileaInput.style.border = null;
                 pasahitzaInput.style.border = null;
                 console.log("Ondo!");
-                loginOk(data);
+                var info = data.username + ";" + data.name + ";" + data.rol + ";" + data.avatar;
+                document.cookie = "info=" + encodeURIComponent(info) + "; expires=Thu, 01 Jan 2030 00:00:00 UTC; path=/";
                 window.location.replace("kokalekua.php");
-                erantzunaDiv.innerHTML = "";                 
+                erantzunaDiv.innerHTML = "";                
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    }
-
-    function loginOk(data){
-        //JSON-a egin
-        data = {
-            username: data.username,
-            name: data.name,
-            rol: data.rol,
-            avatar: data.avatar
-        };
-
-        //Eskaera
-        // Realizar una solicitud POST al servidor
-        fetch('http://localhost/talde1erronka1front/html/login.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-
     }
 
     bidaliButton.addEventListener("click", bidali);

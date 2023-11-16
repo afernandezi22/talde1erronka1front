@@ -1,12 +1,15 @@
 <?php
-    session_start();    
-    if(!isset($_SESSION["username"])){
-        echo "<h1>Ez dago erabiltzailerik</h1>";
-    } else{
-        echo "<input type='hidden' id='username' value=" . $_SESSION["username"] . ">";
-        echo "<input type='hidden' id='rol' value=" . $_SESSION["rol"] . ">";
-        echo "<input type='hidden' id='name' value=" . $_SESSION["name"] . ">";
-        echo "<input type='hidden' id='avatar' value=" . $_SESSION["avatar"] . ">";
+        if(!isset($_COOKIE['info'])){
+            echo "<h1>Ez dago erabiltzailerik</h1>";
+        }else{
+            $nireCookie = $_COOKIE['info'];
+            $nireCookieDecode = urldecode($nireCookie);
+        
+            $info = explode(";", $nireCookieDecode);
+            echo "<input type='hidden' id='username' value=" . $info["0"] . ">";
+            echo "<input type='hidden' id='name' value=" . $info["1"] . ">";
+            echo "<input type='hidden' id='rol' value=" . $info["2"] . ">";
+            echo "<input type='hidden' id='avatar' value=" . $info["3"] . ">";
         ?>
         <!DOCTYPE html>
         <html lang="eu">

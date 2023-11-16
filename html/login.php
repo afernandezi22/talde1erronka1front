@@ -1,16 +1,6 @@
 <?php
-    session_start();
-    session_unset();
-    session_destroy();
-
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        session_start();
-        $json = file_get_contents('php://input');
-        $data = json_decode($json, true);
-        $_SESSION["username"] = $data["username"];
-        $_SESSION["rol"] = $data["rol"];
-        $_SESSION["name"] = $data["name"];
-        $_SESSION["avatar"] = $data["avatar"];
+    if(isset($_COOKIE["info"])){
+        setcookie('info', '', time() - 3600, '/');
     }
 ?>
 
