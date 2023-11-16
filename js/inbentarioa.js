@@ -319,7 +319,9 @@ filtroSelect.addEventListener('change', function() {
     if (selectedOption === 'erosketaData') {
         // Cambia el tipo de input a "date"
         bilaketaTestu.type = 'date';
-    }else {
+    }else if(selectedOption === 'idEkipamendu') {
+        bilaketaTestu.type = 'number';
+    }else{
         bilaketaTestu.type = 'text';
     }
 });

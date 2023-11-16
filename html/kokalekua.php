@@ -104,6 +104,8 @@
                                 <label for="gehituAmaieraData">Amaiera data:</label>
                                 <input type="date" id="gehituAmaieraData" name="amaieraData">
                                 <br><br>
+                                <div id="gehituErrore"></div>
+                                <br><br>
                                 <button type="submit" id="gehituSubmit">Onartu</button>
                                 <button type="button" id="itxiGehituPopup">Itxi</button>
                             </form>
@@ -122,6 +124,8 @@
                                 <br><br>
                                 <label for="editatuAmaieraData">Amaiera data:</label>
                                 <input type="date" id="editatuAmaieraData" name="editatuAmaieraData">
+                                <br><br>
+                                <div id="editatuErrore"></div>
                                 <br><br>
                                 <button type="submit" id="editatuSubmit">Onartu</button>
                                 <button type="button" id="itxiEditatuPopup">Itxi</button>

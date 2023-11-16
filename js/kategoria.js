@@ -5,6 +5,7 @@ const name = document.getElementById("name");
 const avatar = document.getElementById("avatar");
 const logo = document.getElementById("logo");
 const erabiltzaileIzena = document.getElementById("erabiltzaileIzena");
+const filtroSelect = document.getElementById("filtro");
 
 //BOTOIAK
 const ezabatuButton = document.getElementById("ezabatuButton");
@@ -285,4 +286,14 @@ function filterData(){
 
 resetButton.addEventListener("click", function(){
     getDataFromURL("kategoriaTable");
+});
+
+filtroSelect.addEventListener('change', function() {
+    var selectedOption = filtroSelect.value;
+
+    if (selectedOption === 'id') {
+        bilaketaTestu.type = 'number';
+    }else{
+        bilaketaTestu.type = 'text';
+    }
 });

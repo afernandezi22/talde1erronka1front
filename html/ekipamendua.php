@@ -19,8 +19,8 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="../css/styles.css">
             <link rel="stylesheet" href="../css/grafiko.css">
-            <link rel="icon" href="../img/favicon2.ico" type="image/x-icon">
-            <link rel="shortcut icon" href="../img/favicon2.ico" type="image/x-icon">
+            <link rel="icon" href="../img/favicon2.ico" type="image/x-icon" />
+            <link rel="shortcut icon" href="../img/favicon2.ico" type="image/x-icon" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
             <title>Ekipamendua</title>
@@ -106,6 +106,8 @@
                                 <label for="gehituKategoria">Kategoria:</label>
                                 <select name="gehituKategoria" id="gehituKategoria"></select>
                                 <br><br>
+                                <div id="gehituErrore"></div>
+                                <br><br>
                                 <button type="submit" id="gehituSubmit">Onartu</button>
                                 <button type="button" id="itxiGehituPopup">Itxi</button>
                             </form>
@@ -133,6 +135,8 @@
                                 <br><br>
                                 <label for="editatuKategoria">Kategoria:</label>
                                 <select name="editatuKategoria" id="editatuKategoria"></select>
+                                <br><br>
+                                <div id="editatuErrore"></div>
                                 <br><br>
                                 <button type="submit" id="editatuSubmit">Onartu</button>
                                 <button type="button" id="itxiEditatuPopup">Itxi</button>

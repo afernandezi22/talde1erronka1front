@@ -92,8 +92,30 @@ itxiGehituPopup.addEventListener("click", function () {
 
 gehituForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    insertData();
-    gehituContainer.style.display = "none";
+
+    const hasieraData = document.getElementById("gehituHasieraData");
+    const amaieraData = document.getElementById("gehituAmaieraData");
+    var gehituErrore = document.getElementById("gehituErrore");
+
+    if(hasieraDataBainoLehenago(hasieraData.value) && amaieraDataBainoBeranduago(amaieraData.value)){
+        insertData();
+        gehituErrore.innerHTML = "";
+        hasieraData.style.border = "1px solid black";
+        amaieraData.style.border = "1px solid black";
+        gehituContainer.style.display = "none";
+    } else if(!hasieraDataBainoLehenago(hasieraData.value) && amaieraDataBainoBeranduago(amaieraData.value)){
+        hasieraData.style.border = "1px solid red";
+        amaieraData.style.border = "1px solid black";
+        gehituErrore.innerHTML = "<p style='color: red'><b>Hasiera data gaur edo lehenago izan behar da.</b></p>";
+    } else if(!amaieraDataBainoBeranduago(amaieraData.value) && hasieraDataBainoLehenago(hasieraData.value)){
+        hasieraData.style.border = "1px solid black";
+        amaieraData.style.border = "1px solid red";
+        gehituErrore.innerHTML = "<p style='color: red'><b>Amaiera data bihar edo beranduago izan behar da.</b></p>";
+    } else{
+        hasieraData.style.border = "1px solid red";
+        amaieraData.style.border = "1px solid red";
+        gehituErrore.innerHTML = "<p style='color: red'><b>Hasiera data gaur edo lehenago izan behar da eta amaiera data bihar edo beranduago izan behar da.</b></p>";
+    }
 });
 
 function insertData(){
@@ -152,8 +174,18 @@ itxiEditatuPopup.addEventListener("click", function () {
 
 editatuForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    editData();
-    editatuContainer.style.display = "none";
+
+    const editatuErrore = document.getElementById("editatuErrore");
+
+    if(amaieraDataBainoBeranduago(editatuAmaieraDataInput.value)){
+        editData();
+        editatuContainer.style.display = "none";
+        editatuAmaieraDataInput.style.border = "1px solid black";
+        editatuErrore.innerHTML = "";
+    } else{
+        editatuAmaieraDataInput.style.border = "1px solid red";
+        editatuErrore.innerHTML = "<p style='color: red'><b>Amaiera data bihar edo beranduago izan behar da.</b></p>";
+    }
 });
 
 function editData(){
@@ -230,7 +262,11 @@ function deleteData(){
 }
 
 ezabatuButton.addEventListener("click", function (){
-    deleteData();
+    if(rol.value == 0){
+        deleteData();
+    } else{
+        alert("Bakarrik administratzaileek ezabatu dezakete taula honetan");
+    }
 });
 
 //PAGINATZEKO LOGIKA
@@ -358,3 +394,47 @@ filtroSelect.addEventListener('change', function() {
 resetButton.addEventListener("click", function(){
     getData();
 });
+
+//DATAK BEGIRATZEKO
+function datakBegiratu(hasieraDataValue, amaieraDataValue) {
+    const hasieraData = new Date(hasieraDataValue);
+    var amaieraData = null;
+    if(amaieraDataValue.trim() != ''){
+        amaieraData = new Date(amaieraDataValue);
+    }
+    
+    const gaur = new Date();
+
+    // Verificar las condiciones
+    if ((hasieraData <= gaur && amaieraData >= gaur) || amaieraData == null) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//Datak begiratzeko
+function hasieraDataBainoLehenago(hasieraDataValue){
+    const hasieraData = new Date(hasieraDataValue);
+    const gaur = new Date();
+    // Verificar las condiciones
+    if (hasieraData <= gaur) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function amaieraDataBainoBeranduago(amaieraDataValue){
+    var amaieraData = null;
+    if(amaieraDataValue.trim() != ''){
+        amaieraData = new Date(amaieraDataValue);
+    }
+    const gaur = new Date();
+    // Verificar las condiciones
+    if (amaieraData >= gaur || amaieraData == null) {
+        return true;
+    } else {
+        return false;
+    }
+}

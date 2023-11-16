@@ -60,7 +60,7 @@
                                     <option value="izena">Izena</option>
                                     <option value="taldea">Taldea</option>
                                 </select>
-                                <input type="text" id="bilaketa" placeholder="Bilatu...">
+                                <input type="number" id="bilaketa" placeholder="Bilatu...">
                                 <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
                                 <button id="resetButton"><i class="fa-solid fa-rotate-right"></i></button>
                             </form>

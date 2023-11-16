@@ -54,6 +54,7 @@ function kategoriakKargatu() {
     // Vacía los elementos del desplegable
     gehituKategoriaSelect.innerHTML = '';
     editatuKategoriaSelect.innerHTML = '';
+    kategoriaSelect.innerHTML = '';
 
     fetch('http://localhost/erronka1/controller/kategoriacontroller.php')
         .then(response => response.json())
@@ -88,9 +89,44 @@ itxiGehituPopup.addEventListener("click", function () {
 
 gehituForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    insertData();
-    gehituContainer.style.display = "none";
+    var gehituMarkaValue = document.getElementById("gehituMarka").value;
+    var gehituModeloValue = document.getElementById("gehituModelo").value;
+
+    gehituMarkaModeloBerdina(gehituMarkaValue, gehituModeloValue);
 });
+
+function gehituMarkaModeloBerdina(marka, modelo) {
+    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?marka=${marka}&modelo=${modelo}`;
+    var gehituMarka = document.getElementById("gehituMarka");
+    var gehituModelo = document.getElementById("gehituModelo");
+    var gehituErrore = document.getElementById("gehituErrore");
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data === null) {
+            console.log("ez dago");
+            insertData();
+            gehituContainer.style.display = "none";
+            gehituMarka.style.border = "1px solid black";
+            gehituModelo.style.border = "1px solid black";
+        } else {
+            gehituMarka.style.border = "1px solid red";
+            gehituModelo.style.border = "1px solid red";
+            gehituErrore.innerHTML = "<p style='color: red'><b>Marka eta modelo bera duen ekipamendu bat dago datu-basean.</b></p>";
+        }
+    })  
+    .catch(err => {
+        console.error("ERROR: " + err.message);
+        return false; // Si hay un error, asumimos que no está
+    });
+}
 
 function insertData(){
     var gehituIzenaValue = document.getElementById("gehituIzena").value;
@@ -145,6 +181,39 @@ editatuForm.addEventListener("submit", function (e) {
     editData();
     editatuContainer.style.display = "none";
 });
+
+function editatuMarkaModeloBerdina(marka, modelo) {
+    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?marka=${marka}&modelo=${modelo}`;
+    var editatuMarka = document.getElementById("editatuMarka");
+    var editatuModelo = document.getElementById("editatuModelo");
+    var editatuErrore = document.getElementById("editatuErrore");
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data === null) {
+            console.log("ez dago");
+            insertData();
+            gehituContainer.style.display = "none";
+            gehituMarka.style.border = "1px solid black";
+            gehituModelo.style.border = "1px solid black";
+        } else {
+            gehituMarka.style.border = "1px solid red";
+            gehituModelo.style.border = "1px solid red";
+            gehituErrore.innerHTML = "<p style='color: red'><b>Marka eta modelo bera duen ekipamendu bat dago datu-basean.</b></p>";
+        }
+    })  
+    .catch(err => {
+        console.error("ERROR: " + err.message);
+        return false; // Si hay un error, asumimos que no está
+    });
+}
 
 function editKargatuDatuak(){
     var checkbox = document.querySelector('.checkbox-item:checked');
@@ -330,10 +399,6 @@ function viewTableEkipamendua(dataEkipamendua, actualPag) {
 
 window.addEventListener("load", function(){
     getData();
-    const th = document.getElementsByTagName("th");
-    for (let i = 0; i < th.length; i++) {
-        th[i].addEventListener("click", headerClicked);
-    }
 });
 
 // FILTROA
@@ -404,107 +469,3 @@ filtroSelect.addEventListener('change', function() {
 resetButton.addEventListener("click", function(){
     getData();
 });
-
-
-// EKIPAMENDUA TAULAKO DATUAK ORDENATZEKO
-var asc = true;
-var sortColumn = null;
-
-function headerClicked(e) {
-    const clickedColumn = e.target.cellIndex !== undefined ? e.target.cellIndex : e.target.parentNode.cellIndex;
-    console.log(sortColumn);
-    if (sortColumn === clickedColumn) {
-        asc = !asc;
-    } else {
-        asc = true;
-        sortColumn = clickedColumn;
-    }
-
-    sortTableByColumn(sortColumn);
-}
-
-function sortTableByColumn(sortColumn) {
-    const tableBody = document.getElementById("showDataEkipamendua");
-
-    const sortedData = dataEkipamendua.slice(); // Create a copy of the data array
-
-    sortedData.sort(function (a, b) {
-        const aText = a[getColumnKey(sortColumn)];
-        const bText = b[getColumnKey(sortColumn)];
-
-        if (isNaN(aText) || isNaN(bText)) {
-            return asc ? aText.localeCompare(bText, undefined, { sensitivity: 'base' }) : bText.localeCompare(aText, undefined, { sensitivity: 'base' });
-        } else {
-            return asc ? parseFloat(aText) - parseFloat(bText) : parseFloat(bText) - parseFloat(aText);
-        }
-    });
-
-    viewTableEkipamendua(sortedData, actualPag);
-}
-
-function getColumnKey(sortColumn) {
-    // Map column indices to keys in your data structure
-    switch (sortColumn) {
-        case 1:
-            return "id";
-        case 2:
-            return "izena";
-        case 3:
-            return "deskribapena";
-        case 4:
-            return "marka";
-        case 5:
-            return "modelo";
-        case 6:
-            return "stock";
-        case 7:
-            return "kategoriaIzena";
-        default:
-            return ""; // Handle other columns if necessary
-    }
-}
-
-/*
-// EKIPAMENDUA TAULAKO DATUAK ORDENATZEKO
-var asc = true;
-function headerClicked(e) {
-    // console.log(e.target.parentNode.cellIndex);
-    const sortColumn = e.target.cellIndex !== undefined ? e.target.cellIndex : e.target.parentNode.cellIndex;
-    // console.log(sortColumn);
-    asc = !asc;
-    sortTableByColumn(sortColumn);
-}
-
-function sortTableByColumn(sortColumn) {
-    const tableBody = document.getElementById("showDataEkipamendua");
-    //console.log(tableBody);
-    const rows = Array.from(tableBody.rows);
-    // console.log(tableBody.rows);
-    //var asc = true;
-    if (asc === true && sortColumn !== 1 && sortColumn !== 6){
-        var sortedRows = rows.sort(function(a,b){
-            // console.log(a.cells[sortColumn]);
-            const aText = a.cells[sortColumn].textContent;
-            const bText = b.cells[sortColumn].textContent;
-            return aText.localeCompare(bText);
-        });
-    }
-    if (asc === false){
-        var sortedRows = rows.sort(function(a,b){
-            // console.log(a.cells[sortColumn]);
-            const aText = a.cells[sortColumn].textContent;
-            const bText = b.cells[sortColumn].textContent;
-            return bText.localeCompare(aText);
-        });
-    }
-    if (asc === true && sortColumn === 1 || sortColumn === 6){
-        // console.log(rows);
-        var sortedRows = rows.sort((a,b) => a - b);
-    }
-
-    //console.log(sortedRows);
-    tableBody.innerHTML = ""; 
-    sortedRows.forEach(row=>{
-        tableBody.appendChild(row);
-    });
-}*/
