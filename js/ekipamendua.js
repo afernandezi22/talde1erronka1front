@@ -89,16 +89,13 @@ itxiGehituPopup.addEventListener("click", function () {
 
 gehituForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    var gehituMarkaValue = document.getElementById("gehituMarka").value;
-    var gehituModeloValue = document.getElementById("gehituModelo").value;
-
-    gehituMarkaModeloBerdina(gehituMarkaValue, gehituModeloValue);
+    gehituMarkaModeloBerdina();
 });
 
-function gehituMarkaModeloBerdina(marka, modelo) {
-    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?marka=${marka}&modelo=${modelo}`;
+function gehituMarkaModeloBerdina() {
     var gehituMarka = document.getElementById("gehituMarka");
     var gehituModelo = document.getElementById("gehituModelo");
+    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?marka=${gehituMarka.value}&modelo=${gehituModelo.value}`;
     var gehituErrore = document.getElementById("gehituErrore");
 
     return fetch(url, {
@@ -109,13 +106,12 @@ function gehituMarkaModeloBerdina(marka, modelo) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         if (data === null) {
-            console.log("ez dago");
             insertData();
             gehituContainer.style.display = "none";
             gehituMarka.style.border = "1px solid black";
             gehituModelo.style.border = "1px solid black";
+            gehituErrore.innerHTML = "";
         } else {
             gehituMarka.style.border = "1px solid red";
             gehituModelo.style.border = "1px solid red";
@@ -124,7 +120,6 @@ function gehituMarkaModeloBerdina(marka, modelo) {
     })  
     .catch(err => {
         console.error("ERROR: " + err.message);
-        return false; // Si hay un error, asumimos que no está
     });
 }
 
@@ -178,15 +173,15 @@ itxiEditatuPopup.addEventListener("click", function () {
 
 editatuForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    editData();
-    editatuContainer.style.display = "none";
+    editatuMarkaModeloBerdina();
 });
 
-function editatuMarkaModeloBerdina(marka, modelo) {
-    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?marka=${marka}&modelo=${modelo}`;
+function editatuMarkaModeloBerdina() {
     var editatuMarka = document.getElementById("editatuMarka");
     var editatuModelo = document.getElementById("editatuModelo");
+    const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?marka=${editatuMarka.value}&modelo=${editatuModelo.value}`;
     var editatuErrore = document.getElementById("editatuErrore");
+    var editatuId = document.getElementById("editatuId");
 
     return fetch(url, {
         method: 'GET',
@@ -196,22 +191,20 @@ function editatuMarkaModeloBerdina(marka, modelo) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        if (data === null) {
-            console.log("ez dago");
-            insertData();
-            gehituContainer.style.display = "none";
-            gehituMarka.style.border = "1px solid black";
-            gehituModelo.style.border = "1px solid black";
+        if (data === null || (data[0].id === editatuId.value && data[0].marka === editatuMarka.value && data[0].modelo === editatuModelo.value)) {
+            editData();
+            editatuContainer.style.display = "none";
+            editatuMarka.style.border = "1px solid black";
+            editatuModelo.style.border = "1px solid black";
+            editatuErrore.innerHTML = "";
         } else {
-            gehituMarka.style.border = "1px solid red";
-            gehituModelo.style.border = "1px solid red";
-            gehituErrore.innerHTML = "<p style='color: red'><b>Marka eta modelo bera duen ekipamendu bat dago datu-basean.</b></p>";
+            editatuMarka.style.border = "1px solid red";
+            editatuModelo.style.border = "1px solid red";
+            editatuErrore.innerHTML = "<p style='color: red'><b>Marka eta modelo bera duen ekipamendu bat dago datu-basean.</b></p>";
         }
     })  
     .catch(err => {
         console.error("ERROR: " + err.message);
-        return false; // Si hay un error, asumimos que no está
     });
 }
 

@@ -87,6 +87,8 @@
                                 <label for="gehituTaldea">Taldea:</label>
                                 <input type="text" id="gehituTaldea" name="taldea" required>
                                 <br><br>
+                                <div id="gehituErrore"></div>
+                                <br><br>
                                 <button type="submit" id="gehituSubmit">Onartu</button>
                                 <button type="button" id="itxiGehituPopup">Itxi</button>
                             </form>
@@ -104,6 +106,8 @@
                                 <br><br>
                                 <label for="editatuTaldea">Taldea:</label>
                                 <input type="text" id="editatuTaldea" name="taldea" required>
+                                <br><br>
+                                <div id="editatuErrore"></div>
                                 <br><br>
                                 <button type="submit" id="editatuSubmit">Onartu</button>
                                 <button type="button" id="itxiEditatuPopup">Itxi</button>

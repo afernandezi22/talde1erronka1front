@@ -85,6 +85,8 @@
                                 <label for="gehituIzena">Izena:</label>
                                 <input type="text" id="gehituIzena" name="izena" required>
                                 <br><br>
+                                <div id="gehituErrore"></div>
+                                <br><br>
                                 <button type="submit" id="gehituSubmit">Onartu</button>
                                 <button type="button" id="itxiGehituPopup">Itxi</button>
                             </form>
@@ -99,6 +101,8 @@
                                 <input type="text" id="editatuId" name="id" disabled>
                                 <label for="editatuIzena">Izena:</label>
                                 <input type="text" id="editatuIzena" name="izena" required>
+                                <br><br>
+                                <div id="editatuErrore"></div>
                                 <br><br>
                                 <button type="submit" id="editatuSubmit">Onartu</button>
                                 <button type="button" id="itxiEditatuPopup">Itxi</button>

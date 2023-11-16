@@ -57,9 +57,37 @@ itxiGehituPopup.addEventListener("click", function () {
 
 gehituForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    insertData();
-    gehituContainer.style.display = "none";
+    gehituIzenBerdina();
 });
+
+function gehituIzenBerdina() {
+    var gehituIzena = document.getElementById("gehituIzena");
+    const url = `http://localhost/erronka1/controller/gelacontroller.php?zutabea=izena&datua=${gehituIzena.value}`;
+    var gehituErrore = document.getElementById("gehituErrore");
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data === null) {
+            insertData();
+            gehituContainer.style.display = "none";
+            gehituIzena.style.border = "1px solid black";
+            gehituErrore.innerHTML = "";
+        } else {
+            gehituIzena.style.border = "1px solid red";
+            gehituErrore.innerHTML = "<p style='color: red'><b>Izena bera duen gela bat dago datu-basean.</b></p>";
+        }
+    })  
+    .catch(err => {
+        console.error("ERROR: " + err.message);
+    });
+}
+
 
 function insertData(){
     var izenaInputValue = document.getElementById("gehituIzena").value;
@@ -105,9 +133,37 @@ itxiEditatuPopup.addEventListener("click", function () {
 
 editatuForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    editData();
-    editatuContainer.style.display = "none";
+    editatuIzenBerdina();
 });
+
+function editatuIzenBerdina() {
+    var editatuIzena = document.getElementById("editatuIzena");
+    var editatuId = document.getElementById("editatuId");
+    const url = `http://localhost/erronka1/controller/gelacontroller.php?zutabea=izena&datua=${gehituIzena.value}`;
+    var editatuErrore = document.getElementById("editatuErrore");
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data === null || (data[0].id === editatuId.value && data[0].izena === editatuIzena.value)) {
+            editData();
+            editatuContainer.style.display = "none";
+            editatuIzena.style.border = "1px solid black";
+            editatuErrore.innerHTML = "";
+        } else {
+            editatuIzena.style.border = "1px solid red";
+            editatuErrore.innerHTML = "<p style='color: red'><b>Izena bera duen gela bat dago datu-basean.</b></p>";
+        }
+    })  
+    .catch(err => {
+        console.error("ERROR: " + err.message);
+    });
+}
 
 function editData(){
     const checkbox = document.querySelector('.checkbox-item:checked');
