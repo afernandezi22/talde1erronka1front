@@ -94,6 +94,8 @@
                                 <label for="gehituErosketaData">Erosketa data:</label>
                                 <input type="date" id="gehituErosketaData" name="gehituErosketaData" required>
                                 <br><br>
+                                <div id="gehituErrore"></div>
+                                <br><br>
                                 <button type="submit" id="gehituSubmit">Onartu</button>
                                 <button type="button" id="itxiGehituPopup">Itxi</button>
                             </form>
@@ -108,7 +110,9 @@
                                 <input type="text" id="editatuEtiketa" name="editatuEtiketa" disabled>
                                 <br><br>
                                 <label for="editatuErosketaData">Erosketa data:</label>
-                                <input type="date" id="editatuErosketaData" name="editatuErosketaData" required>
+                                <input type="date" id="editatuErosketaData" name="editatuErosketaData">
+                                <br><br>
+                                <div id="editatuErrore"></div>
                                 <br><br>
                                 <button type="submit" id="editatuSubmit">Onartu</button>
                                 <button type="button" id="itxiEditatuPopup">Itxi</button>

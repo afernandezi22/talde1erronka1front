@@ -36,6 +36,29 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+    
+    var gehituNan = document.getElementById("gehituNan");
+    var gehituIzena = document.getElementById("gehituIzena");
+    var editatuIzena = document.getElementById("editatuIzena");
+    var gehituAbizena = document.getElementById("gehituAbizena");
+    var editatuAbizena = document.getElementById("editatuAbizena");
+    var gehituErabiltzailea = document.getElementById("gehituErabiltzailea");
+    var editatuErabiltzailea = document.getElementById("editatuErabiltzailea");
+    var gehituPasahitza = document.getElementById("gehituPasahitza");
+    var editatuPasahitza = document.getElementById("editatuPasahitza");
+    var gehituIrudia = document.getElementById("gehituIrudia");
+    var editatuIrudia = document.getElementById("editatuIrudia");
+    karaktereakMugatu(gehituNan, 9);
+    karaktereakMugatu(gehituIzena, 20);
+    karaktereakMugatu(editatuIzena, 20);
+    karaktereakMugatu(gehituAbizena, 50);
+    karaktereakMugatu(editatuAbizena, 50);
+    karaktereakMugatu(gehituErabiltzailea, 20);
+    karaktereakMugatu(editatuErabiltzailea, 20);
+    karaktereakMugatu(gehituPasahitza, 20);
+    karaktereakMugatu(editatuPasahitza, 20);
+    karaktereakMugatu(gehituIrudia, 250);
+    karaktereakMugatu(editatuIrudia, 250);
 });
 
 //GEHITZEKO LOGIKA
@@ -378,3 +401,21 @@ filtroSelect.addEventListener('change', function() {
 resetButton.addEventListener("click", function(){
     getData();
 });
+
+//Karaktereak limitatzeko
+function karaktereakMugatu(input, muga) {
+    input.addEventListener('input', function () {
+        var texto = input.value;
+
+        if (texto.length > muga) {
+            // Limitar el texto a la longitud máxima
+            input.value = texto.slice(0, muga);
+
+            // Opcional: Añadir una clase para resaltar que se ha alcanzado el límite
+            input.classList.add('exceeded');
+        } else {
+            // Asegurarse de que se elimine la clase si no se ha alcanzado el límite
+            input.classList.remove('exceeded');
+        }
+    });
+}

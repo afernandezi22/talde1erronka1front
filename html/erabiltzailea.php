@@ -108,7 +108,10 @@
                                     <input type="password" id="gehituPasahitza" name="pasahitza" required>
                                     <br><br>
                                     <label for="gehituRola">Rola:</label>
-                                    <input type="text" id="gehituRola" name="rola" required>
+                                    <select name="gehituRola" id="gehituRola">
+                                        <option value="0">Admin</option>
+                                        <option value="1">Erabiltzailea</option>
+                                    </select>
                                     <br><br>
                                     <label for="gehituIrudia">Irudia:</label>
                                     <input type="text" id="gehituIrudia" name="irudia">
@@ -139,7 +142,10 @@
                                     <input type="password" id="editatuPasahitza" name="pasahitza" required>
                                     <br><br>
                                     <label for="editatuRola">Rola:</label>
-                                    <input type="text" id="editatuRola" name="rola" required>
+                                    <select name="editatuRola" id="editatuRola">
+                                        <option value="0">Admin</option>
+                                        <option value="1">Erabiltzailea</option>
+                                    </select>
                                     <br><br>
                                     <label for="editatuIrudia">Irudia:</label>
                                     <input type="text" id="editatuIrudia" name="irudia">

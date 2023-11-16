@@ -71,13 +71,41 @@ gehituButton.addEventListener("click", function () {
 });
 
 itxiGehituPopup.addEventListener("click", function () {
+    var gehituErosketaData = document.getElementById("gehituErosketaData");
+    var gehituZenbat = document.getElementById("gehituZenbat");
+    var gehituErrore = document.getElementById("gehituErrore");
+
+    gehituErosketaData.style.border = "1px solid black";
+    gehituZenbat.style.border = "1px solid black";
+    gehituErrore.innerHTML = "";
     gehituContainer.style.display = "none";
 });
 
 gehituForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    insertData();
-    gehituContainer.style.display = "none";
+    var gehituErosketaData = document.getElementById("gehituErosketaData");
+    var gehituZenbat = document.getElementById("gehituZenbat");
+    var gehituErrore = document.getElementById("gehituErrore");
+
+    if(erosketaDataBegiratu(gehituErosketaData.value) && gehituZenbat.value > 0){
+        insertData();
+        gehituErosketaData.style.border = "1px solid black";
+        gehituZenbat.style.border = "1px solid black";
+        gehituErrore.innerHTML = "";
+        gehituContainer.style.display = "none";
+    } else if (gehituZenbat.value <= 0 && !erosketaDataBegiratu(gehituErosketaData.value)){
+        gehituZenbat.style.border = "1px solid red";
+        gehituErosketaData.style.border = "1px solid red";
+        gehituErrore.innerHTML = "<p style='color: red'><b>Erosketa data gaur edo lehenagokoa izan behar da eta gutxienez 1 gehitu behar da.</b></p>";
+    } else if(gehituZenbat.value <= 0){
+        gehituErosketaData.style.border = "1px solid black";
+        gehituZenbat.style.border = "1px solid red";
+        gehituErrore.innerHTML = "<p style='color: red'><b>Gutxienez 1 gehitu behar da.</b></p>";
+    } else {
+        gehituErosketaData.style.border = "1px solid red";
+        gehituZenbat.style.border = "1px solid black";
+        gehituErrore.innerHTML = "<p style='color: red'><b>Erosketa data gaur edo lehenagokoa izan behar da.</b></p>";
+    }
 });
 
 function insertData(){
@@ -121,13 +149,28 @@ editatuButton.addEventListener("click", function () {
 });
 
 itxiEditatuPopup.addEventListener("click", function () {
+    var editatuErosketaData = document.getElementById("editatuErosketaData");
+    var editatuErrore = document.getElementById("editatuErrore");
+
+    editatuErosketaData.style.border = "1px solid black";
+    editatuErrore.innerHTML = "";
     editatuContainer.style.display = "none";
 });
 
 editatuForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    editData();
-    editatuContainer.style.display = "none";
+    var editatuErosketaData = document.getElementById("editatuErosketaData");
+    var editatuErrore = document.getElementById("editatuErrore");
+
+    if(erosketaDataBegiratu(editatuErosketaData.value)){
+        editData();
+        editatuContainer.style.display = "none";
+        editatuErosketaData.style.border = "1px solid black";
+        editatuErrore.innerHTML = "";
+    } else{
+        editatuErosketaData.style.border = "1px solid red";
+        editatuErrore.innerHTML = "<p style='color: red'><b>Erosketa data gaur edo lehenagokoa izan behar da.</b></p>";
+    }
 });
 
 function editData(){
@@ -192,6 +235,7 @@ function deleteData(){
         .then(() => {
             console.log("ONDO EZABATUTA!");
             getData();
+            ezEzabatu(checkboxIDs);
         })
         .catch(error => {
             console.log("ERROR! " + error);
@@ -200,6 +244,40 @@ function deleteData(){
     
     ezabatuButton.disabled = true;
     editatuButton.disabled = true;
+}
+
+function ezEzabatu(ids) {
+    var promises = ids.map(id => {
+        const url = `http://localhost/erronka1/controller/kokalekuacontroller.php?zutabea=etiketa&datua=${id}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data != null) {
+                return id;
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
+    });
+
+    Promise.all(promises)
+        .then(ezEzabatu => {
+            ezEzabatu = ezEzabatu.filter(Boolean);
+            if (ezEzabatu.length > 0) {
+                alert("Hurrengo erregistroak ez dira ezabatu kokalekuen erregistroan agertzen direlako: " + ezEzabatu);
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
 }
 
 ezabatuButton.addEventListener("click", function (){
@@ -329,3 +407,15 @@ filtroSelect.addEventListener('change', function() {
 resetButton.addEventListener("click", function(){
     getData();
 });
+
+//Erosketa data begiratzeko
+function erosketaDataBegiratu(erosketaDataValue){
+    const erosketaData = new Date(erosketaDataValue);
+    const gaur = new Date();
+    // Verificar las condiciones
+    if (erosketaData <= gaur || erosketaData == null) {
+        return true;
+    } else {
+        return false;
+    }
+}

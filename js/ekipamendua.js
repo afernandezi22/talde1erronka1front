@@ -40,6 +40,22 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+    var gehituIzena = document.getElementById("gehituIzena");
+    var editatuIzena = document.getElementById("editatuIzena");
+    var gehituDeskribapena = document.getElementById("gehituDeskribapena");
+    var editatuDeskribapena = document.getElementById("editatuDeskribapena");
+    var gehituMarka = document.getElementById("gehituMarka");
+    var editatuMarka = document.getElementById("editatuMarka");
+    var gehituModelo = document.getElementById("gehituModelo");
+    var editatuModelo = document.getElementById("editatuModelo");
+    karaktereakMugatu(gehituIzena, 50);
+    karaktereakMugatu(editatuIzena, 50);
+    karaktereakMugatu(gehituDeskribapena, 200);
+    karaktereakMugatu(editatuDeskribapena, 200);
+    karaktereakMugatu(gehituMarka, 20);
+    karaktereakMugatu(editatuMarka, 20);
+    karaktereakMugatu(gehituModelo, 100);
+    karaktereakMugatu(editatuModelo, 100);
 });
 
 //GEHITZEKO LOGIKA
@@ -312,6 +328,7 @@ function deleteData(){
         })
         .then(() => {
             console.log("ONDO EZABATUTA!");
+            ezEzabatu(checkboxIDs);
             getData();
         })
         .catch(error => {
@@ -321,6 +338,40 @@ function deleteData(){
     
     ezabatuButton.disabled = true;
     editatuButton.disabled = true;
+}
+
+function ezEzabatu(ids) {
+    var promises = ids.map(id => {
+        const url = `http://localhost/erronka1/controller/ekipamenduacontroller.php?id=${id}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data != null && data[0].stock > 0) {
+                return id;
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
+    });
+
+    Promise.all(promises)
+        .then(ezEzabatu => {
+            ezEzabatu = ezEzabatu.filter(Boolean);
+            if (ezEzabatu.length > 0) {
+                alert("Hurrengo ekipamenduak ez dira ezabatu stock-a dutelako: " + ezEzabatu);
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
 }
 
 ezabatuButton.addEventListener("click", function (){
@@ -462,3 +513,21 @@ filtroSelect.addEventListener('change', function() {
 resetButton.addEventListener("click", function(){
     getData();
 });
+
+//Karaktereak limitatzeko
+function karaktereakMugatu(input, muga) {
+    input.addEventListener('input', function () {
+        var texto = input.value;
+
+        if (texto.length > muga) {
+            // Limitar el texto a la longitud máxima
+            input.value = texto.slice(0, muga);
+
+            // Opcional: Añadir una clase para resaltar que se ha alcanzado el límite
+            input.classList.add('exceeded');
+        } else {
+            // Asegurarse de que se elimine la clase si no se ha alcanzado el límite
+            input.classList.remove('exceeded');
+        }
+    });
+}

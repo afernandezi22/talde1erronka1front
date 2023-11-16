@@ -40,6 +40,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+    var gehituIzena = document.getElementById("gehituIzena");
+    var editatuIzena = document.getElementById("editatuIzena");
+    var gehituTaldea = document.getElementById("gehituTaldea");
+    var editatuTaldea = document.getElementById("editatuTaldea");
+
+    karaktereakMugatu(gehituIzena, 4);
+    karaktereakMugatu(editatuIzena, 4);
+    karaktereakMugatu(gehituTaldea, 5);
+    karaktereakMugatu(editatuTaldea, 5);
 });
 
 //GEHITZEKO LOGIKA
@@ -139,7 +148,7 @@ editatuForm.addEventListener("submit", function (e) {
 function editatuIzenBerdina() {
     var editatuIzena = document.getElementById("editatuIzena");
     var editatuId = document.getElementById("editatuId");
-    const url = `http://localhost/erronka1/controller/gelacontroller.php?zutabea=izena&datua=${gehituIzena.value}`;
+    const url = `http://localhost/erronka1/controller/gelacontroller.php?zutabea=izena&datua=${editatuIzena.value}`;
     var editatuErrore = document.getElementById("editatuErrore");
 
     return fetch(url, {
@@ -229,6 +238,7 @@ function deleteData(){
         .then(() => {
             console.log("ONDO EZABATUTA!");
             getData();
+            ezEzabatu(checkboxIDs);
         })
         .catch(error => {
             console.log("ERROR! " + error);
@@ -237,6 +247,40 @@ function deleteData(){
     
     ezabatuButton.disabled = true;
     editatuButton.disabled = true;
+}
+
+function ezEzabatu(ids) {
+    var promises = ids.map(id => {
+        const url = `http://localhost/erronka1/controller/kokalekuacontroller.php?zutabea=idGela&datua=${id}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data != null) {
+                return id;
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
+    });
+
+    Promise.all(promises)
+        .then(ezEzabatu => {
+            ezEzabatu = ezEzabatu.filter(Boolean);
+            if (ezEzabatu.length > 0) {
+                alert("Hurrengo gelak ez dira ezabatu kokalekuen erregistroan agertzen direlako: " + ezEzabatu);
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
 }
 
 ezabatuButton.addEventListener("click", function (){
@@ -360,3 +404,21 @@ filtroSelect.addEventListener('change', function() {
         bilaketaTestu.type = 'text';
     }
 });
+
+//Karaktereak limitatzeko
+function karaktereakMugatu(input, muga) {
+    input.addEventListener('input', function () {
+        var texto = input.value;
+
+        if (texto.length > muga) {
+            // Limitar el texto a la longitud máxima
+            input.value = texto.slice(0, muga);
+
+            // Opcional: Añadir una clase para resaltar que se ha alcanzado el límite
+            input.classList.add('exceeded');
+        } else {
+            // Asegurarse de que se elimine la clase si no se ha alcanzado el límite
+            input.classList.remove('exceeded');
+        }
+    });
+}
