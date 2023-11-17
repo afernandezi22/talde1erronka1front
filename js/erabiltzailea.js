@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
-    var gehituNan = document.getElementById("gehituNan");
+    var gehituNAN = document.getElementById("gehituNAN");
     var gehituIzena = document.getElementById("gehituIzena");
     var editatuIzena = document.getElementById("editatuIzena");
     var gehituAbizena = document.getElementById("gehituAbizena");
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var editatuPasahitza = document.getElementById("editatuPasahitza");
     var gehituIrudia = document.getElementById("gehituIrudia");
     var editatuIrudia = document.getElementById("editatuIrudia");
-    karaktereakMugatu(gehituNan, 9);
+    karaktereakMugatu(gehituNAN, 9);
     karaktereakMugatu(gehituIzena, 20);
     karaktereakMugatu(editatuIzena, 20);
     karaktereakMugatu(gehituAbizena, 50);
@@ -247,6 +247,7 @@ function deleteData(){
         .then(() => {
             console.log("ONDO EZABATUTA!");
             getData();
+            ezEzabatu(checkboxIDs);
         })
         .catch(error => {
             console.log("ERROR! " + error);
@@ -255,6 +256,40 @@ function deleteData(){
     
     ezabatuButton.disabled = true;
     editatuButton.disabled = true;
+}
+
+function ezEzabatu(ids) {
+    var promises = ids.map(id => {
+        const url = `http://localhost/erronka1/controller/erabiltzaileacontroller.php?id=${id}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if (data != null && data[0].rola == 0) {
+                return id;
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
+    });
+
+    Promise.all(promises)
+        .then(ezEzabatu => {
+            ezEzabatu = ezEzabatu.filter(Boolean);
+            if (ezEzabatu.length > 0) {
+                alert("Hurrengo erabiltzaileak ezin dira ezabatu administratzaileak direlako: " + ezEzabatu);
+            }
+        })
+        .catch(err => {
+            console.error("ERROR: " + err.message);
+        });
 }
 
 ezabatuButton.addEventListener("click", function (){
@@ -408,13 +443,10 @@ function karaktereakMugatu(input, muga) {
         var texto = input.value;
 
         if (texto.length > muga) {
-            // Limitar el texto a la longitud máxima
             input.value = texto.slice(0, muga);
 
-            // Opcional: Añadir una clase para resaltar que se ha alcanzado el límite
             input.classList.add('exceeded');
         } else {
-            // Asegurarse de que se elimine la clase si no se ha alcanzado el límite
             input.classList.remove('exceeded');
         }
     });

@@ -520,13 +520,10 @@ function karaktereakMugatu(input, muga) {
         var texto = input.value;
 
         if (texto.length > muga) {
-            // Limitar el texto a la longitud máxima
             input.value = texto.slice(0, muga);
 
-            // Opcional: Añadir una clase para resaltar que se ha alcanzado el límite
             input.classList.add('exceeded');
         } else {
-            // Asegurarse de que se elimine la clase si no se ha alcanzado el límite
             input.classList.remove('exceeded');
         }
     });
