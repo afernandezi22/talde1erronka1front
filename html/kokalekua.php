@@ -61,10 +61,12 @@
                                 <button type="button" id="editatuButton" disabled><i class="fa-solid fa-pencil"></i></button>
                                 <button type="button" id="ezabatuButton" disabled><i class="fa-solid fa-trash"></i></button>
                                 <select name="filtro" id="filtro">
-                                    <option value="etiketa">Etiketa</option>
-                                    <option value="idGela">ID Gela</option>
-                                    <option value="hasieraData">Hasiera Data</option>
-                                    <option value="amaieraData">Amaiera Data</option>
+                                    <option value="K.etiketa">Etiketa</option>
+                                    <option value="E.izena">Ekipamendu izena</option>
+                                    <option value="K.idGela">ID Gela</option>
+                                    <option value="G.izena">Gela izena</option>
+                                    <option value="K.hasieraData">Hasiera Data</option>
+                                    <option value="K.amaieraData">Amaiera Data</option>
                                 </select>
                                 <input type="text" id="bilaketa" placeholder="Bilatu...">
                                 <button class="lupa" id="bilaketaButton" type="button"><i class="fa fa-search"></i></button>
