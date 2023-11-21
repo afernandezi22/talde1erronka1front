@@ -62,9 +62,7 @@
                                 <button type="button" id="ezabatuButton" disabled><i class="fa-solid fa-trash"></i></button>
                                 <select name="filtro" id="filtro">
                                     <option value="etiketa">Etiketa</option>
-                                    <option value="ekipamenduIzena">Ekipamendu izena</option>
                                     <option value="idGela">ID Gela</option>
-                                    <option value="gelaIzena">Gela izena</option>
                                     <option value="hasieraData">Hasiera Data</option>
                                     <option value="amaieraData">Amaiera Data</option>
                                 </select>

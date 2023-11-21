@@ -114,7 +114,7 @@
                                     </select>
                                     <br><br>
                                     <label for="gehituIrudia">Irudia:</label>
-                                    <input type="text" id="gehituIrudia" name="irudia">
+                                    <input type="url" id="gehituIrudia" name="irudia">
                                     <br><br>
                                     <button type="submit" id="gehituSubmit">Onartu</button>
                                     <button type="button" id="itxiGehituPopup">Itxi</button>
@@ -148,7 +148,7 @@
                                     </select>
                                     <br><br>
                                     <label for="editatuIrudia">Irudia:</label>
-                                    <input type="text" id="editatuIrudia" name="irudia">
+                                    <input type="url" id="editatuIrudia" name="irudia">
                                     <br><br>
                                     <button type="submit" id="editatuSubmit">Onartu</button>
                                     <button type="button" id="itxiEditatuPopup">Itxi</button>

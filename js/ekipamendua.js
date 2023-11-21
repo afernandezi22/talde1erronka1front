@@ -414,7 +414,7 @@ function getData() {
     .then(data => {
         dataEkipamendua = data;
         totalPages = Math.ceil(dataEkipamendua.length / tableLines);
-        paginarEkipamendua(0); // Para asegurar que se inicie en la página 1
+        paginarEkipamendua(0); //Lehenengo orrialdean hasten dela ziurtatzeko
         kategoriakKargatu();
     })
     .catch(err => {
